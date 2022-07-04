@@ -45,12 +45,12 @@
 <script>
     $(document).ready(function () {
         $('#listBtn').on("click", function () {
-            location.href = "<c:url value='/board/list'/>?page=${page}&pageSize=${pageSize}";
+            location.href = "<c:url value='/board/list${searchCondition.getQueryString}'/>";
         })
         $('#removeBtn').on("click", function () {
             let form = $('#form')
             if (confirm("게시글을 삭제하시겠습니까 ?")) {
-                form.attr("action", "<c:url value='/board/remove'/>?page=${page}&pageSize=${pageSize}");
+                form.attr("action", "<c:url value='/board/remove${searchCondition.getQueryString}'/>");
                 form.attr("method", "post");
                 form.submit();
             }
@@ -84,7 +84,7 @@
                 $("#head").html("게시글 수정");
                 return;
             }
-            form.attr("action", "<c:url value="/board/modify"/>?page=${page}&pageSize=${pageSize}")
+            form.attr("action", "<c:url value="/board/modify${searchCondition.getQueryString}"/>")
             form.attr("method", "post")
             form.submit();
         })
