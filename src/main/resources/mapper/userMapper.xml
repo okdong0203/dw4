@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.dw4.dao.UserMapper">
+
+    <delete id="deleteAll" parameterType="UserDto">
+        DELETE FROM USER;
+    </delete>
+    <!-- 회원가입 -->
+    <insert id="insert" parameterType="UserDto">
+        INSERT INTO USER
+            (ID, PWD, NAME, EMAIL, BIRTH)
+        VALUES
+            ( #{id}, #{pwd}, #{name}, #{email}, #{birth}) <!-- birth의 type -->
+    </insert>
+
+    <!-- 아이디 중복체크 아이디가 존재하면 1 존재하지않으면 0 반환 -->
+    <select id="idCheck" resultType="int" parameterType="String">
+        SELECT COUNT(ID)
+        FROM USER
+        WHERE ID = #{id}
+    </select>
+
+    <!-- 로그인 -->
+    <select id="login" parameterType="String" resultType="UserDto">
+        SELECT *
+        FROM USER
+        WHERE ID = #{id}
+    </select>
+
+    <!-- 아이디 찾기 -->
+    <select id="idFind" parameterType="UserDto" resultType="String">
+        SELECT ID
+        FROM USER
+        WHERE NAME = #{name} AND EMAIL = #{email}
+    </select>
+
+    <!-- 비밀번호 찾기 -->
+    <select id="pwdFind" parameterType="UserDto" resultType="String">
+        SELECT PWD
+        FROM USER
+        WHERE ID = #{id} AND EMAIL = #{email}
+    </select>
+
+    <!-- 회원정보 수정 -->
+    <update id="update" parameterType="UserDto">
+        UPDATE USER
+        SET PWD = #{pwd}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 회원 탈퇴 -->
+    <delete id="delete" parameterType="UserDto">
+        DELETE FROM USER WHERE  ID = #{id} AND PWD = #{pwd}
+    </delete>
+
+</mapper>
